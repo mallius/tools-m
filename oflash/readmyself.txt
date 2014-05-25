@@ -1,0 +1,2 @@
+cp oflash /usr/bin/oflash
+直接可以使用
