@@ -1,0 +1,54 @@
+先到http://www.columbia.edu/kermit/ck80.html#download来下载C-Kermit。如果你下 载的是cku211.tar.gz的话，执行：
+
+
+gunzip x.tar.gz
+tar xvf cku211.tar
+rm -rf cku211.tar
+make linux
+mv wermit /usr/local/bin/kermit
+
+执行以上命令，就可以在终端上输入kermit就可运行了。
+2. 运行kermit后要对其配置才能下载内核，如：
+set line /dev/ttyS0
+set speed 115200
+set carrier-watch off
+set handshake none
+set flow-control none
+robust
+set file type bin
+set file name lit
+set rec pack 1000
+set send pack 1000
+set window 5
+使用以下命令：connect
+就可以使用串口了，进入串口和minicom一样。
+切换：按下Ctrl + \ ,再按c 就跳回kermit。跳回串口控制，可以输入c,即connect命令。
+发送文件：
+kermit中输入connect后，跳到u-boot串口界面。
+输入loadb 0x0c008000 回车
+按下 ctrl + \ ，再按c,切换到kermit。
+输入命令：send /home/zImage
+kermit开始传送数据了，并可以看到传送进度，发送完后，输入c,再回到u-boot界面，然后，再输入：go 0x0c008000
+内核开始运行了
+kermit在启动时会查找~/.kermrc文件，调用里面的命令来初始化kermit。只要将你所需的命令写到~/.kermrc文件里，启动 后就不这么麻烦了。
+# vi ~/.kermrc
+set line /dev/ttyS0
+set speed 115200
+set carrier-watch off
+set handshake none
+set flow-control none
+robust
+set file type bin
+set file name lit
+set rec pack 1000
+set send pack 1000
+set window 5
+c
+保存后退出即可。然后启动kermit，你会看到：
+# kermit
+Connecting to /dev/ttyS0, speed 115200
+Escape character: Ctrl-\ (ASCII 28, FS): enabled
+Type the escape character followed by C to get back,
+or followed by ? to see other options.
+
+
